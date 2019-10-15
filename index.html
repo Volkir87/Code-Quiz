@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="assets/css/styles.css" rel="stylesheet" type="text/css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" defer></script>
+        <script type="text/javascript" src="app/js/questions.js" defer></script>
+        <script type="text/javascript" src="app/js/main.js" defer></script>
+        <title>Code Quiz</title>
+    </head>
+    <body>
+        <ul class="nav nav-justified row">
+            <li class="nav-item col-6 text-left ml-4">
+                <button class="btn btn-primary" id="highscores_button">View Highscores</button>
+            </li>
+            <li class="nav-item col-6 text-right mr-4" id="timer">Time: 0</li>
+        </ul>
+        <div id="landing">
+            <header>
+                <h1 class="text-center mt-5 mb-4">Coding Quizzz Challenge</h1>
+            </header>
+            <main class="container">
+                <div class="d-flex align-content-center flex-wrap flex-column">
+                    <p class="text-left">Score is calculated by time remaining. Answering quickly and correctly results in a higher score. Answering incorrectly results in a time penalty (for example, 15 seconds are subtracted from time remaining).</p>
+                    <div class="d-flex align-content-center flex-wrap flex-column">
+                        <button class="btn btn-primary mt-5" id="start_button">Start Quiz</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>
