@@ -16,20 +16,25 @@ function getQuestions () {
 var time = 30;
 quizQuestions = questions;
 
+timerFunction = undefined; 
+
+function countDown () {
+    if (time <= 0) {
+        window.clearInterval(timerFunction);
+        hideAnyQuestion();
+        enterName();
+    }
+    else {
+        time--;
+        $("#timer").text("Time: "+time);
+    }
+}
+
 function launchQuiz () {
     // first, hide the entry screen
     $("#landing").attr("hidden", true);
     // then, start countdown, display questions one after another and get answers
-    var timerFunction = window.setInterval(countDown, 1000);
-    function countDown () {
-        if (time <= 0) {
-            window.clearInterval(timerFunction);
-        }
-        else {
-            time--;
-            $("#timer").text("Time: "+time);
-        }
-    }
+    timerFunction = window.setInterval(countDown, 1000);
     // show questions and receive answers, until all questions are done
     i = 0;
     runQuiz (i);
@@ -44,11 +49,25 @@ function runQuiz (i) {
         var answer = "";
         $(".answer").on("click", function () {
             answer = ($(this).attr("data"));
-            answer === question.answer ? window.alert("TRUE") : window.alert("FALSE");
+            //answer === question.answer ? window.alert("TRUE") : time = time - 15;
+            if (answer === question.answer) {
+                window.alert("TRUE");
+            }
+            else {
+                time = time - 15;
+                time <= 0 ? $("#timer").text("Time: 0") : $("#timer").text("Time: "+time);
+            }
             i++;
             runQuiz(i);
+            return;
             }
         )
+    }
+    else {
+        window.clearInterval(timerFunction);
+        $("#timer").text("Time: 0");
+        hideQuestion(i-1);
+        enterName();
     }
 }
 
@@ -72,10 +91,38 @@ function showQuestion (question, i) {
         qBlock.append(qChoice);
     }
     $("body").append(container);
+    return;
 }
 
 function hideQuestion (i) {
     $("#question"+i).remove();
+    return;
+}
+
+function hideAnyQuestion () {
+    $("[id^='question']").remove();
+}
+
+// function to display the name input and final score
+function enterName () {
+    var container = $("<div>");
+    container.attr("class","container mt-5 row justify-content-center"); 
+    container.attr("id","enter_name"); 
+    var nBlock = $("<div>");
+    nBlock.attr("class","mt-5 col-sm-6 offset-sm-3");
+    container.append(nBlock);
+    var nTitle = $("<h2>All Done!</h2><p>Please submit your initials</p>");
+    nBlock.append(nTitle);
+    var nInput = $("<input></input>");
+    var nSubmit = $("<button>Submit</button>");
+    nSubmit.attr("id","submit_name");
+    nBlock.append(nInput);
+    nBlock.append(nSubmit);
+    $("body").append(container);
+}
+
+function showHighscores () {
+
 }
 
 
