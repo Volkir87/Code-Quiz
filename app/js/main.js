@@ -21,11 +21,13 @@ function countDown () {
         window.clearInterval(timerFunction);
         hideAnyQuestion();
         enterName();
+        return;
     }
     else {
         time--;
         qScore > 1 ? qScore-- : qScore = 1; //once score for a question reaches 1, it stays 1
         $("#timer").text("Time: "+time);
+        return;
     }
 }
 
@@ -37,6 +39,7 @@ function launchQuiz () {
     // show questions and receive answers, until all questions are done
     i = 0;
     runQuiz (i);
+    return;
 }
 
 // function will display question after question until all questions are done
@@ -70,6 +73,7 @@ function runQuiz (i) {
         $("#timer").text("Time: 0"); // setting time to 0
         hideQuestion(i-1);
         enterName();
+        return;
     }
 }
 
@@ -103,6 +107,7 @@ function hideQuestion (i) {
 
 function hideAnyQuestion () {
     $("[id^='question']").remove();
+    return;
 }
 
 // function to display the name input and final score
@@ -139,16 +144,45 @@ function enterName () {
     container.append(nBlock);
     $("body").append(container);
     $("#submit_name").on("click", setHighscores);
+    return;
 }
 
-// function to get currently stored highscores from the local storage. Returns array of objects
-function getHighscores () {
-
+// function to sort the highscores by score
+function sortByScore (a,b) {
+    if ( a.score < b.score ){
+        return 1;
+      }
+      if ( a.score > b.score ){
+        return -1;
+      }
+      return 0;
 }
 
-
+// function to display highscores on a screen
 function showHighscores () {
-
+    highScore = window.localStorage.getItem("highscore");
+    highScore = JSON.parse(highScore);
+    highScore = highScore.sort(sortByScore);
+    console.log(highScore);
+    $("#landing").attr("hidden", true);
+    $("#enter_name").remove();
+    var container = $("<div>");
+    container.attr({
+        class: "container mt-5 row justify-content-center",
+        id: "highscores"
+    }); 
+    var hBlock = $("<div>");
+    hBlock.attr("class","mt-5 col-sm-6 offset-sm-3");
+    var hTitle = $("<h2>Highscores</h2>");
+    hBlock.append(hTitle);
+    for (row in highScore) {
+        console.log(row);
+        var hRow = $("<p>" + (parseInt(row)+1) + ". " + highScore[row].name + ": " + highScore[row].score + "</p>");
+        hRow.attr("class", "row_record");
+        hBlock.append(hRow);
+    }
+    container.append(hBlock);
+    $("body").append(container);
 }
 
 // function to add the new highscore to the saved ones. If there are no saved highscores, create ones
@@ -170,6 +204,9 @@ function setHighscores () {
         savedScore = JSON.stringify(highScore);
     }
     window.localStorage.setItem("highscore", savedScore);
+    showHighscores();
+    return;
 }
 
 $("#start_button").on("click", launchQuiz);
+$("#highscores_button").on("click", showHighscores);
