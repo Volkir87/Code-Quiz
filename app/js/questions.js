@@ -20,13 +20,18 @@ var questions = [
       answer: "parentheses"
     },
     {
-    title: "Question 3:",
-    choices: ["answer1", "answer2", "answer3", "answer4"],
-    answer: "answer2"
+    title: "What is the HTML tag under which one can write the JavaScript code?",
+    choices: ["&lt;javascript&gt;", "&lt;scripted&gt;", "&lt;script&gt;", "&lt;js&gt;"],
+    answer: "&lt;script&gt;"
     },
     {
-      title: "Question 4:",
-      choices: ["answer1", "answer2", "answer3", "answer4"],
-      answer: "answer3"
+      title: "Which of the following is the correct syntax to display “AAAAA” in an alert box using JavaScript?",
+      choices: ["alertbox(“AAAAA”)", "msg(“AAAAA”)", "msgbox(“AAAAA”)", "alert(“AAAAA”)"],
+      answer: "alert(“AAAAA”)"
+    },
+    {
+      title: "The symbol which is used to access jQuery library methods is:",
+      choices: ["$", "#", "%", "&"],
+      answer: "$"
     },
   ];
