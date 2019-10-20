@@ -58,9 +58,7 @@ function launchQuiz () {
 function answerF () {
     var answer = ($(this).attr("data"));
     if (answer === question.answer) {
-        console.log("This score: " + qScore);
         finalScore = finalScore + qScore;
-        console.log("Final Score: " + finalScore);
         isCorrect = true;
         //$("[id^='question']").append("<p id='answer'>Correct!</p>");
     }
@@ -206,7 +204,6 @@ function showHighscores () {
     }
     highScore = JSON.parse(highScore);
     highScore = highScore.sort(sortByScore);
-    console.log(highScore);
     $("#landing").attr("hidden", true);
     $("#enter_name").remove();
     $("#highscores").remove();
@@ -223,7 +220,6 @@ function showHighscores () {
     scoresBlock.attr("id", "all_scores");
     hBlock.append(scoresBlock);
     for (row in highScore) {
-        console.log(row);
         var hRow = $("<p>" + (parseInt(row)+1) + ". " + highScore[row].name + ": " + highScore[row].score + "</p>");
         hRow.attr("class", "row_record");
         scoresBlock.append(hRow);
