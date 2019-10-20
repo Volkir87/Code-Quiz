@@ -46,6 +46,7 @@ function launchQuiz () {
     // first, reset all varaibles and hide the entry screen
     reset ();
     $("#landing").attr("hidden", true);
+    $("#highscores_button").attr("disabled", true); //disabling the Highscores button, so it does not interfere the flow of the quiz
     // then, start countdown, display questions one after another and get answers
     timerFunction = window.setInterval(countDown, 1000);
     // show questions and receive answers, until all questions are done
@@ -240,6 +241,7 @@ function showHighscores () {
     hBlock.append(buttonGroup);
     container.append(hBlock);
     $("body").append(container);
+    $("#highscores_button").attr("disabled", false);
     $("#go_back").on("click", goBackF); // had to put listener here, otherwise it doesn't understand what's #go_back
     $("#remove").on("click", clearHighscores);
 }
