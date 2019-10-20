@@ -14,6 +14,7 @@ var time = quizQuestions.length * timePerQ;
 var timerFunction = undefined; 
 var qScore = 0;
 var finalScore = 0;
+var isCorrect = false;
 
 // function to reinstantiate all the original variables to the default state
 function reset () {
@@ -55,16 +56,19 @@ function launchQuiz () {
 
 // function to process all answers
 function answerF () {
-    answer = ($(this).attr("data"));
-    //answer === question.answer ? window.alert("TRUE") : time = time - 15;
+    var answer = ($(this).attr("data"));
     if (answer === question.answer) {
         console.log("This score: " + qScore);
         finalScore = finalScore + qScore;
         console.log("Final Score: " + finalScore);
+        isCorrect = true;
+        //$("[id^='question']").append("<p id='answer'>Correct!</p>");
     }
     else {
         time = time - timePerQ; // penalize player 
         time <= 0 ? $("#timer").text("Time: 0") : $("#timer").text("Time: "+time); //if the penalty results in time being <0, show 0
+        isCorrect = false;
+        //$("[id^='question']").append("<p id='answer'>Wrong!</p>");
     }
     i++;
     runQuiz(i);
@@ -101,13 +105,24 @@ function showQuestion (question, i) {
     container.append(qBlock);
     var qTitle = $("<div>"+question.title+"</div>");
     qBlock.append(qTitle);
-    for (i in question.choices) {
-        choice = (parseInt(i)+1)+". "+question.choices[i];
+    for (k in question.choices) {
+        choice = (parseInt(k)+1)+". "+question.choices[k];
         var qChoice = $("<button>"+choice+"</button><br>");
         qChoice.attr("class","btn btn-primary mt-1 answer");
-        qChoice.attr("id", "answer"+i);
-        qChoice.attr("data", question.choices[i]);
+        qChoice.attr("id", "answer"+k);
+        qChoice.attr("data", question.choices[k]);
         qBlock.append(qChoice);
+    }
+    if (i != 0) { // do not show the previous answer if this is the first question
+        if (isCorrect) {
+            container.append("<br><p class='mt-5 col-sm-6 offset-sm-3' id='answer'>Correct!</p>");
+        }
+        else {
+            container.append("<br><p class='mt-5 col-sm-6 offset-sm-3' id='answer'>Wrong!</p>");
+        }
+        setTimeout(function() { 
+            $('#answer').remove(); 
+        }, 2000);
     }
     $("body").append(container);
     return;
@@ -157,6 +172,15 @@ function enterName () {
     inputGroup.append(nSubmitDiv);
     nBlock.append(inputGroup);
     container.append(nBlock);
+    if (isCorrect) {
+        container.append("<br><p class='mt-5 col-sm-6 offset-sm-3' id='answer'>Correct!</p>");
+    }
+    else {
+        container.append("<br><p class='mt-5 col-sm-6 offset-sm-3' id='answer'>Wrong!</p>");
+    }
+    setTimeout(function() { 
+        $('#answer').remove(); 
+    }, 2000);
     $("body").append(container);
     $("#submit_name").on("click", setHighscores); // code to watch for clicking on "Submit" button. 
     return;
@@ -188,11 +212,11 @@ function showHighscores () {
     $("#highscores").remove();
     var container = $("<div>");
     container.attr({
-        class: "container mt-5 row justify-content-center",
+        class: "mt-5 row",
         id: "highscores"
     }); 
     var hBlock = $("<div>");
-    hBlock.attr("class","mt-5 col-sm-6 offset-sm-3");
+    hBlock.attr("class","mt-5 col-sm-4 offset-sm-4 pl-4 pr-4");
     var hTitle = $("<h2>Highscores</h2>");
     hBlock.append(hTitle);
     var scoresBlock = $("<div>");
